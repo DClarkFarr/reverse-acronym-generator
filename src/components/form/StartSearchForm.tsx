@@ -32,13 +32,14 @@ const StartSearchForm = ({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <div className="flex flex-wrap gap-4">
-        <div>
+      <div className="lg:flex lg:columns-2 gap-4 mb-4">
+        <div className="w-full">
           <label htmlFor="acronym">Acronym</label>
           <input
             id="acronym"
             name="acronym"
             type="text"
+            className="input"
             onChange={formik.handleChange}
             value={formik.values.acronym}
             placeholder="e.g. NASA, LGTM, etc."
@@ -47,12 +48,13 @@ const StartSearchForm = ({
             <p className="text-red-700">{formik.errors.acronym}</p>
           )}
         </div>
-        <div>
+        <div className="w-full">
           <label htmlFor="topic">Topic</label>
           <input
             id="topic"
             name="topic"
             type="text"
+            className="input"
             onChange={formik.handleChange}
             value={formik.values.topic}
             placeholder="e.g. christmas, space, etc."
@@ -62,10 +64,13 @@ const StartSearchForm = ({
           )}
         </div>
       </div>
-      <div></div>
 
-      <button type="submit" disabled={formik.isSubmitting || !formik.isValid}>
-        {formik.isSubmitting ? "Loading..." : "Submit"}
+      <button
+        type="submit"
+        className="btn bg-blue-800 hover:bg-blue-900"
+        disabled={formik.isSubmitting || !formik.isValid}
+      >
+        {formik.isSubmitting ? "Loading..." : "Assign meaning to life"}
       </button>
     </form>
   );

@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-gray-100;
+@layer components {
+  .input {
+    @apply px-4 py-2 rounded border border-gray-500 w-full focus:outline-0;
+  }
+
+  .input-sm {
+    @apply px-2 py-1;
+  }
+
+  .input-lg {
+    @apply px-6 py-3 text-lg;
+  }
+
+  .btn {
+    @apply cursor-pointer px-6 py-[13px] leading-none rounded text-white hover:brightness-75 disabled:bg-gray-500 disabled:text-white border-none;
+  }
+
+  .btn-sm {
+    @apply px-2 py-1 text-xs;
+  }
+  .btn-lg {
+    @apply px-6 py-3 text-lg;
+  }
 }
