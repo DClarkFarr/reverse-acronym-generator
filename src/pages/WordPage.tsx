@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { upperFirst, words } from "lodash";
 import CardLayout from "../components/layout/CardLayout";
 import useWordStore from "../stores/useWordStore";
@@ -61,6 +61,13 @@ const WordPage = () => {
 
   return (
     <CardLayout>
+      <div className="mb-4">
+        <Link to="/">
+          <span className="underline font-light text-sky-700 hover:text-sky-800">
+            Back
+          </span>
+        </Link>
+      </div>
       <h1 className="text-2xl mb-4">
         <span className="font-thin pr-1">Let's get the perfect</span>
         <br />
@@ -117,7 +124,7 @@ const WordPage = () => {
         </div>
 
         <div className="mb-4">
-          <h3 className="text-lg font-medium mb-2">Smart V2</h3>
+          <h3 className="text-lg font-medium mb-2">Smart Sequenced</h3>
           <div className="flex gap-2">
             {wordStore.smartWords.map((word) => (
               <div key={word} className="text-gray-700">
