@@ -2,13 +2,11 @@ import StartSearchForm, {
   StartSearchFormState,
 } from "../components/form/StartSearchForm";
 import CardLayout from "../components/layout/CardLayout";
+import WordService from "../services/WordService";
 
 const HomePage = () => {
-  const onSubmitSearch = async (values: StartSearchFormState) => {
-    console.log("check it!", values);
-    await new Promise((resolve) => {
-      setTimeout(resolve, 3000);
-    });
+  const onSubmitSearch = async ({ acronym, topic }: StartSearchFormState) => {
+    await WordService.createReverseAcronym(acronym, topic);
   };
   return (
     <CardLayout>
