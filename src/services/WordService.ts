@@ -83,8 +83,7 @@ export const semiSmartWords = (wordLists: ResponseWord[][]) => {
   const secondIndex = random(0, secondList.length - 1);
 
   picked.push(secondList[secondIndex]);
-
-  picked.push(choosePreviousWord(firstList, picked[0]));
+  picked.splice(0, 0, choosePreviousWord(firstList, picked[0]));
 
   for (let i = 2; i < wordLists.length; i++) {
     const wordList = wordLists[i];
@@ -140,7 +139,6 @@ export default class WordService {
       const previousWord = words[i - 1].word;
       let nextList = await findNextWord(previousWord, topic, char);
       if (!nextList.length) {
-        console.log("fallback", previousWord);
         nextList = await findMeansLikeStartsWith(previousWord, char, 50, topic);
       }
 

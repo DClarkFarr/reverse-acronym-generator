@@ -79,6 +79,17 @@ const WordPage = () => {
     }
   };
 
+  const onReplaceSmartList = (listIndex: number, wordIndex: number) => {
+    const words = wordStore.smartWords;
+
+    const list = wordStore.smartLists[listIndex];
+    const word = list[wordIndex].word;
+
+    words.splice(listIndex, 1, word);
+
+    wordStore.setSmartWords(words);
+  };
+
   return (
     <CardLayout>
       <div className="mb-4">
@@ -116,33 +127,23 @@ const WordPage = () => {
         </div>
 
         <div className="mb-4">
-          <h3 className="text-lg font-medium mb-2">Semi Smart</h3>
-          <div className="flex gap-2">
-            {wordStore.semiSmart.map((word) => (
-              <div key={word} className="text-gray-700">
-                {upperFirst(word)}
-              </div>
-            ))}
-            <div className="ml-auto">
-              <button
-                className="btn btn-sm bg-red-700 hover:bg-red-900"
-                onClick={onRefreshSemiSmart}
-              >
-                Redo
-              </button>
-            </div>
-          </div>
+          <WordListControl
+            label="Semi Smart"
+            onRefresh={onRefreshSemiSmart}
+            words={wordStore.semiSmart}
+            wordLists={wordStore.wordLists}
+            onReplace={(i, ii) => onReplaceBasicList("semiSmart", i, ii)}
+          />
         </div>
 
         <div className="mb-4">
-          <h3 className="text-lg font-medium mb-2">Smart Sequenced</h3>
-          <div className="flex gap-2">
-            {wordStore.smartWords.map((word) => (
-              <div key={word} className="text-gray-700">
-                {upperFirst(word)}
-              </div>
-            ))}
-          </div>
+          <WordListControl
+            label="Smart Sequenced"
+            allowRefresh={false}
+            words={wordStore.smartWords}
+            wordLists={wordStore.smartLists}
+            onReplace={(i, ii) => onReplaceSmartList(i, ii)}
+          />
         </div>
       </div>
     </CardLayout>

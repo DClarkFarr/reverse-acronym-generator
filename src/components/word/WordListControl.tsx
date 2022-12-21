@@ -9,12 +9,14 @@ const WordListControl = ({
   onReplace,
   words,
   wordLists,
+  allowRefresh = true,
 }: {
   words: string[];
   label: string;
   wordLists: ResponseWord[][];
-  onRefresh: () => void;
+  onRefresh?: () => void;
   onReplace: (listIndex: number, wordIndex: number) => void;
+  allowRefresh?: boolean;
 }) => {
   const nodeRef = useRef(null);
   const [inProp, setInProp] = useState(words.map(() => false));
@@ -22,6 +24,7 @@ const WordListControl = ({
   const defaultStyle = {
     transition: `opacity ${250}ms ease-in-out`,
     opacity: 0,
+    zIndex: 1,
   };
 
   const transitionStyles: { [K in TransitionStatus]: object } = {
@@ -95,14 +98,16 @@ const WordListControl = ({
             </Transition>
           </div>
         ))}
-        <div className="ml-auto">
-          <button
-            className="btn btn-sm bg-red-700 hover:bg-red-900"
-            onClick={onRefresh}
-          >
-            Shuffle
-          </button>
-        </div>
+        {allowRefresh && (
+          <div className="ml-auto">
+            <button
+              className="btn btn-sm bg-red-700 hover:bg-red-900"
+              onClick={onRefresh}
+            >
+              Shuffle
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
