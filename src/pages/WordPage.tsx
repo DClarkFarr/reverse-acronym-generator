@@ -7,6 +7,7 @@ import WordService, {
   allNounWords,
   semiSmartWords,
 } from "../services/WordService";
+import WordListControl from "../components/word/WordListControl";
 
 let hasLoaded = false;
 const WordPage = () => {
@@ -59,6 +60,25 @@ const WordPage = () => {
     wordStore.setSemiSmart(newSet);
   };
 
+  const onReplaceBasicList = (
+    listName: "allNouns" | "semiSmart",
+    listIndex: number,
+    wordIndex: number
+  ) => {
+    const words = wordStore[listName];
+
+    const list = wordStore.wordLists[listIndex];
+    const word = list[wordIndex].word;
+
+    words.splice(listIndex, 1, word);
+
+    if (listName === "allNouns") {
+      wordStore.setAllNouns(words);
+    } else if (listName === "semiSmart") {
+      wordStore.setSemiSmart(words);
+    }
+  };
+
   return (
     <CardLayout>
       <div className="mb-4">
@@ -86,22 +106,13 @@ const WordPage = () => {
       </div>
       <div>
         <div className="mb-4">
-          <h3 className="text-lg font-medium mb-2">All nouns</h3>
-          <div className="flex gap-2">
-            {wordStore.allNouns.map((word) => (
-              <div key={word} className="text-gray-700">
-                {upperFirst(word)}
-              </div>
-            ))}
-            <div className="ml-auto">
-              <button
-                className="btn btn-sm bg-red-700 hover:bg-red-900"
-                onClick={onRefreshAllNouns}
-              >
-                Redo
-              </button>
-            </div>
-          </div>
+          <WordListControl
+            label="All Nouns"
+            onRefresh={onRefreshAllNouns}
+            words={wordStore.allNouns}
+            wordLists={wordStore.wordLists}
+            onReplace={(i, ii) => onReplaceBasicList("allNouns", i, ii)}
+          />
         </div>
 
         <div className="mb-4">

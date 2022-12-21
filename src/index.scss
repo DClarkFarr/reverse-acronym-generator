@@ -26,3 +26,9 @@
     @apply px-6 py-3 text-lg;
   }
 }
+
+.word-dropdown {
+  &__list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
