@@ -8,9 +8,15 @@ export interface WordStore {
   semiSmart: string[];
   allNouns: string[];
 
+  smartWords: string[];
+  smartLists: ResponseWord[][];
+
   setWordLists: (wordLists: ResponseWord[][]) => void;
   setSemiSmart: (semiSmart: string[]) => void;
   setAllNouns: (allNouns: string[]) => void;
+
+  setSmartWords: (smartWords: string[]) => void;
+  setSmartLists: (smartLists: ResponseWord[][]) => void;
 }
 
 export const createWordStore = () =>
@@ -19,6 +25,9 @@ export const createWordStore = () =>
       wordLists: [],
       semiSmart: [],
       allNouns: [],
+
+      smartWords: [],
+      smartLists: [],
 
       setWordLists: (wordLists: ResponseWord[][]) =>
         set((draft) => {
@@ -33,6 +42,16 @@ export const createWordStore = () =>
       setAllNouns: (allNouns: string[]) =>
         set((draft) => {
           return { ...draft, allNouns };
+        }),
+
+      setSmartWords: (smartWords: string[]) =>
+        set((draft) => {
+          return { ...draft, smartWords };
+        }),
+
+      setSmartLists: (smartLists: ResponseWord[][]) =>
+        set((draft) => {
+          return { ...draft, smartLists };
         }),
     }))
   );

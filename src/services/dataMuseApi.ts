@@ -11,6 +11,29 @@ const dataMuseApi = axios.create({
   baseURL: "https://api.datamuse.com",
 });
 
+export const findMeansLikeStartsWith = async (
+  meansLike: string,
+  startsWith: string,
+  max = 50,
+  topic: string | undefined = undefined
+) => {
+  const response = await dataMuseApi.get(`words`, {
+    params: {
+      ml: meansLike,
+      sp: `${startsWith}*`,
+      max,
+      md: "p",
+      topic,
+    },
+  });
+  return sortWordListByScoreAsc(
+    excludeWordsByTags(
+      excludeEmptyTags(filterWordsByLength(response.data, 2)),
+      ["u", "prep"]
+    )
+  );
+};
+
 export const findRelatedStartsWith = async (
   word: string,
   topic = "",
@@ -25,7 +48,32 @@ export const findRelatedStartsWith = async (
     },
   });
   return sortWordListByScoreAsc(
-    excludeWordsByTags(filterWordsByLength(response.data, 2), ["u", "prep"])
+    excludeWordsByTags(
+      excludeEmptyTags(filterWordsByLength(response.data, 2)),
+      ["u", "prep"]
+    )
+  );
+};
+
+export const findNextWord = async (
+  previousWord: string,
+  topic: string,
+  startsWith: string
+) => {
+  const response = await dataMuseApi.get(`words`, {
+    params: {
+      rel_bga: previousWord,
+      topic,
+      sp: `${startsWith}*`,
+      max: 50,
+      md: "p",
+    },
+  });
+  return sortWordListByScoreAsc(
+    excludeWordsByTags(
+      excludeEmptyTags(filterWordsByLength(response.data, 2)),
+      ["u", "prep"]
+    )
   );
 };
 
@@ -41,6 +89,14 @@ export const excludeWordsByTags = (words: ResponseWord[], tags: string[]) => {
   return [
     ...words.filter((word) => {
       return !word.tags?.some((tag) => tags.includes(tag));
+    }),
+  ];
+};
+
+export const excludeEmptyTags = (words: ResponseWord[]) => {
+  return [
+    ...words.filter((word) => {
+      return word.tags?.length;
     }),
   ];
 };

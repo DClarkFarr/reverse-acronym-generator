@@ -12,12 +12,14 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const onSubmitSearch = async ({ acronym, topic }: StartSearchFormState) => {
-    const { allNouns, semiSmart, wordLists } =
+    const { allNouns, semiSmart, wordLists, smartLists, smartWords } =
       await WordService.createReverseAcronym(acronym, topic);
 
     wordStore.setAllNouns(allNouns);
     wordStore.setSemiSmart(semiSmart);
     wordStore.setWordLists(wordLists);
+    wordStore.setSmartLists(smartLists);
+    wordStore.setSmartWords(smartWords);
 
     navigate({
       pathname: "/word",
