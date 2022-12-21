@@ -3,10 +3,26 @@ import StartSearchForm, {
 } from "../components/form/StartSearchForm";
 import CardLayout from "../components/layout/CardLayout";
 import WordService from "../services/WordService";
+import useWordStore from "../stores/useWordStore";
+
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const wordStore = useWordStore();
+  const navigate = useNavigate();
+
   const onSubmitSearch = async ({ acronym, topic }: StartSearchFormState) => {
-    await WordService.createReverseAcronym(acronym, topic);
+    const { allNouns, semiSmart, wordLists } =
+      await WordService.createReverseAcronym(acronym, topic);
+
+    wordStore.setAllNouns(allNouns);
+    wordStore.setSemiSmart(semiSmart);
+    wordStore.setWordLists(wordLists);
+
+    navigate({
+      pathname: "/word",
+      search: `?acronym=${acronym}&topic=${topic}`,
+    });
   };
   return (
     <CardLayout>

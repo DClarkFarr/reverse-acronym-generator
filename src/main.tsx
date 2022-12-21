@@ -5,6 +5,9 @@ import "./index.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import WordPage from "./pages/WordPage";
+import { WordStoreContext, createWordStore } from "./stores/useWordStore";
+
+const wordStore = createWordStore();
 
 const router = createBrowserRouter([
   {
@@ -19,6 +22,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <WordStoreContext.Provider value={wordStore}>
+      <RouterProvider router={router} />
+    </WordStoreContext.Provider>
   </React.StrictMode>
 );

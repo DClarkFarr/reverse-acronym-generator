@@ -1,9 +1,11 @@
 import axios from "axios";
 
+export type WordTag = "adj" | "adv" | "n" | "v" | "u" | "prop";
+
 export type ResponseWord = {
   score: number;
   word: string;
-  tags: ("adj" | "adv" | "n" | "v" | "u" | "prop")[];
+  tags: WordTag[];
 };
 const dataMuseApi = axios.create({
   baseURL: "https://api.datamuse.com",
